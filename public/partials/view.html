@@ -1,6 +1,6 @@
 <div ng-controller="UserCtrl as uc">
         <div class="jumbotron">
-            <h2>CISCO TEST</h2>
+            <h2>Schindler's List</h2>
             <p class="pull-right">... a UI created using AngularJS and Bootstrap</p>
         </div>
 
@@ -56,18 +56,6 @@
                 </tbody>
             </table>
 
-            <h3>
-                Debug
-            </h3>
-            <hr>
-            <accordion>
-                <accordion-group is-open="status.open">
-                    <accordion-heading>
-                        Json Data <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                    </accordion-heading>
-                    <pre>{{ uc.users | json }}</pre>
-                </accordion-group>
-            </accordion>
         </div>
 
     </div>
