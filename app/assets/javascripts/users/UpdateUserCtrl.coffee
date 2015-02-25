@@ -37,11 +37,4 @@ class UpdateUserCtrl
           @$log.error "Unable to get Users: #{error}"
       )
 
-  populateAge: (age) -> 
-        i = 1
-        while i <= 120
-            angular.element(document.getElementById('age'))
-                .append '<option>' + i + '</option>'
-            i++
-
 controllersModule.controller('UpdateUserCtrl', UpdateUserCtrl)

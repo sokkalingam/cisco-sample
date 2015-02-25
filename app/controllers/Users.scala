@@ -9,7 +9,8 @@ import org.slf4j.{LoggerFactory, Logger}
 import javax.inject.Singleton
 import play.api.mvc._
 import play.api.libs.json._
-import com.github.nscala_time.time.Imports._
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * The Users controllers encapsulates the Rest endpoints and the interaction with the MongoDB, via ReactiveMongo
@@ -110,16 +111,14 @@ class Users extends Controller with MongoController {
   }
 
   def calcalateAgeFromBirthday(birthday: String) : Long = {
-    val formatter = DateTimeFormat.forPattern("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'")
-    val birthdate = formatter.parseDateTime(birthday)
-    var millis : Long = 0
-    try {
-      millis = (birthdate to DateTime.now).millis
-    } catch {
-        case iae: IllegalArgumentException => return -1
-    }
 
-    return  millis / millisInAYear
+   val formatter = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'")
+   val birthDateTime = formatter.parse(birthday).getTime()
+   var currentDateTime = new Date().getTime()
+   if (currentDateTime > birthDateTime)
+    return (currentDateTime - birthDateTime)/millisInAYear
+   else
+    throw new IllegalArgumentException("Birthday cannot be in the future")
   }
  
 

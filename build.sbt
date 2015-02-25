@@ -15,6 +15,4 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.3.1",
   "org.webjars" % "angularjs" % "1.3.8",
   "org.webjars" % "angular-ui-bootstrap" % "0.12.0",
-  "org.mockito" % "mockito-core" % "1.10.17" % "test",
-  "com.github.nscala-time" %% "nscala-time" % "1.8.0",
-  "joda-time" % "joda-time" % "2.7")
+  "org.mockito" % "mockito-core" % "1.10.17" % "test")
