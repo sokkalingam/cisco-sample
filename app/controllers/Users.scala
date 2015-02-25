@@ -114,11 +114,11 @@ class Users extends Controller with MongoController {
 
    val formatter = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'")
    val birthDateTime = formatter.parse(birthday).getTime()
-   var currentDateTime = new Date().getTime()
-   if (currentDateTime > birthDateTime)
-    return (currentDateTime - birthDateTime)/millisInAYear
+   var age = (new Date().getTime() - birthDateTime)/millisInAYear
+   if (age < 1)
+      throw new IllegalArgumentException("You need to be atleast 1 year old")
    else
-    throw new IllegalArgumentException("Birthday cannot be in the future")
+      return age
   }
  
 
