@@ -37,11 +37,11 @@ class UserService
             )
         deferred.promise
 
-    updateUser: (firstName, lastName, user) ->
+    updateUser: (id, user) ->
       @$log.debug "updateUser #{angular.toJson(user, true)}"
       deferred = @$q.defer()
 
-      @$http.put("/user/#{firstName}/#{lastName}", user)
+      @$http.put("/user/#{id}", user)
       .success((data, status, headers) =>
               @$log.info("Successfully updated User - status #{status}")
               deferred.resolve(data)

@@ -3,7 +3,9 @@ class CreateUserCtrl
 
     constructor: (@$log, @$location,  @UserService) ->
         @$log.debug "constructing CreateUserController"
-        @user = {"id" : new Date().getTime().toString() }
+        @user = {}
+        @user.id = new Date().getTime().toString()
+        @user.age = 0
 
     createUser: () ->
         @$log.debug "createUser()"

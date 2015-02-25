@@ -1,10 +1,13 @@
 package models
+import java.text.SimpleDateFormat
+import java.util.Date
 
-case class User( id: String,
-				 age: Int,
-                 firstName: String,
-                 lastName: String,
-                 active: Boolean)
+case class User( var id: String,
+				 var birthday: String,
+				 var age: Long,
+                 var firstName: String,
+                 var lastName: String,
+                 var active: Boolean)
 
 object JsonFormats {
   import play.api.libs.json.Json

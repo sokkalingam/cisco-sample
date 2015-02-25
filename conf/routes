@@ -11,7 +11,7 @@ GET     /randomUUID                 @controllers.Application.randomUUID
 # User management API
 GET     /users                      @controllers.Users.findUsers
 POST    /user                       @controllers.Users.createUser
-PUT     /user/:firstName/:lastName  @controllers.Users.updateUser(firstName: String, lastName: String)
+PUT     /user/:id  @controllers.Users.updateUser(id: String)
 DELETE  /user/:id                   @controllers.Users.deleteUser(id: String)
 
 # Map static resources from the /public folder to the /assets URL path

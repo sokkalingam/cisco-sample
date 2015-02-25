@@ -9,6 +9,7 @@ import org.slf4j.{LoggerFactory, Logger}
 import javax.inject.Singleton
 import play.api.mvc._
 import play.api.libs.json._
+import com.github.nscala_time.time.Imports._
 
 /**
  * The Users controllers encapsulates the Rest endpoints and the interaction with the MongoDB, via ReactiveMongo
@@ -18,6 +19,7 @@ import play.api.libs.json._
 @Singleton
 class Users extends Controller with MongoController {
 
+  private final val millisInAYear = 31536000000L
   private final val logger: Logger = LoggerFactory.getLogger(classOf[Users])
 
   /*
@@ -48,6 +50,11 @@ class Users extends Controller with MongoController {
       request.body.validate[User].map {
         user =>
         // `user` is an instance of the case class `models.User`
+        // val formatter = DateTimeFormat.forPattern("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'")
+        // val birthdate = formatter.parseDateTime(user.birthday)
+        // user.age = (birthdate to DateTime.now).millis / millisInAYear
+        user.age = calcalateAgeFromBirthday(user.birthday)
+
           collection.insert(user).map {
             lastError =>
               logger.debug(s"Successfully inserted with LastError: $lastError")
@@ -56,12 +63,14 @@ class Users extends Controller with MongoController {
       }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
 
-  def updateUser(firstName: String, lastName: String) = Action.async(parse.json) {
+  def updateUser(id: String) = Action.async(parse.json) {
     request =>
       request.body.validate[User].map {
         user =>
           // find our user by first name and last name
-          val nameSelector = Json.obj("firstName" -> firstName, "lastName" -> lastName)
+          user.age = calcalateAgeFromBirthday(user.birthday)
+
+          val nameSelector = Json.obj("id" -> id)
           collection.update(nameSelector, user).map {
             lastError =>
               logger.debug(s"Successfully updated with LastError: $lastError")
@@ -98,6 +107,19 @@ class Users extends Controller with MongoController {
     val nameSelector = Json.obj("id" -> id)
     collection.remove(nameSelector, firstMatchOnly = true)
     Ok("Delete Request was made")
+  }
+
+  def calcalateAgeFromBirthday(birthday: String) : Long = {
+    val formatter = DateTimeFormat.forPattern("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'")
+    val birthdate = formatter.parseDateTime(birthday)
+    var millis : Long = 0
+    try {
+      millis = (birthdate to DateTime.now).millis
+    } catch {
+        case iae: IllegalArgumentException => return -1
+    }
+
+    return  millis / millisInAYear
   }
  
 
